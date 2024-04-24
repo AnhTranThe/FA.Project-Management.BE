@@ -3,12 +3,12 @@ const router = express.Router();
 const VerifyToken = require("../middlewares/verifyToken");
 
 const authController = require("../controllers/auth/auth.controller");
-const {GetUser, GetUserById, GetUsersJoinInProjectId} = require("../controllers/users/getUser.controller");
+const {GetUser, GetUserById, GetUsersJoinInProjectId, GetProjectBySearch} = require("../controllers/users/getUser.controller");
 const CreateUser = require("../controllers/users/createUser.controller");
 const DeleteUser = require("../controllers/users/deleteUser.controller");
 const {GetProject, GetProjectById, GetProjectByUser} = require("../controllers/project/getProject.controller");
-const CreateProject = require("../controllers/project/createProject.controller");
-const DeleteProject = require("../controllers/project/deleteProject.controller");
+const {CreateProject, addUserInProject} = require("../controllers/project/createProject.controller");
+const {DeleteProject, deleteUserInproject} = require("../controllers/project/deleteProject.controller");
 const {GetTask, GetTaskById, GetTaskByProjectId, GetTaskByUser} = require("../controllers/task/getTask.controller");
 const CreateTask = require("../controllers/task/createTask.controller");
 const DeleteTask = require("../controllers/task/deleteTask.controller");
@@ -38,9 +38,12 @@ router.put("/api/user/changerole", VerifyToken, ChangeRoleUser);
 
 // Project
 router.get("/api/project", VerifyToken, GetProject);
-router.get("/api/project/:id", VerifyToken, GetProjectById);
+router.get("/api/project", VerifyToken, GetProject);
+router.get("/api/project/byName", VerifyToken, GetProjectBySearch);
 router.post("/api/project/", VerifyToken, CreateProject);
+router.post("/api/project/add-user-in-project/:project_id", VerifyToken, addUserInProject);
 router.delete("/api/project/", VerifyToken, DeleteProject);
+router.delete("/api/project/delete-user-in-project/:project_id", VerifyToken, deleteUserInproject);
 router.put("/api/project/", VerifyToken, PutProject);
 
 // Task
