@@ -1,5 +1,6 @@
 const escape = require("escape-html");
 const QueryDatabase = require("../../utils/queryDatabase");
+const {containsWord} = require("../../utils/checkCharacter");
 
 const GetUser = async (req, res, next) => {
   try {
@@ -60,13 +61,19 @@ const GetUsersJoinInProjectId = async (req, res, next) => {
 const GetProjectBySearch = async (req, res) => {
   try {
     const key = escape(req.query.search);
-
     const sqlGetProjectByName = `
       SELECT * FROM project
-      WHERE name LIKE '%${key}%'
     `;
+
     const data = await QueryDatabase(sqlGetProjectByName);
-    return res.status(200).send({code: 200, data: data.rows});
+    // check xem key word phải có ít nhất 1 từ giống trong chuổi string name
+    const dataSearchBykey = data.rows.filter((ele) => {
+      const checkKey = containsWord(ele.name, key);
+      if (checkKey) {
+        return ele;
+      }
+    });
+    return res.status(200).send({code: 200, data: dataSearchBykey});
   } catch (error) {
     res.status(500).json({code: 500, message: "Internal Server Error"});
   }

@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const VerifyToken = require("../middlewares/verifyToken");
 
-const authController = require("../controllers/auth/auth.controller");
+const {Login, Register, RefreshToken} = require("../controllers/auth/auth.controller");
 const {GetUser, GetUserById, GetUsersJoinInProjectId, GetProjectBySearch} = require("../controllers/users/getUser.controller");
 const CreateUser = require("../controllers/users/createUser.controller");
 const DeleteUser = require("../controllers/users/deleteUser.controller");
@@ -24,8 +24,9 @@ router.get("/", (req, res, next) => {
 });
 
 // Auth
-router.post("/api/login", authController.Login);
-router.get("/api/refresh-token", authController.RefreshToken);
+router.post("/api/login", Login);
+router.post("/api/register", Register);
+router.get("/api/refresh-token", RefreshToken);
 
 // User
 router.get("/api/user", VerifyToken, GetUser);
