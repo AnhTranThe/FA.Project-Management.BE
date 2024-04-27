@@ -1,39 +1,48 @@
 const QueryDatabase = require("../../utils/queryDatabase");
-const {GetProjectByName} = require("./getProject.controller");
 
 const CreateProject = async (req, res, next) => {
+  const client = await pool.connect();
   try {
     // Check name của project tạo mới ko được trùng với cái đã có trong hệ thống
     const checkName = await QueryDatabase(`SELECT * FROM project WHERE name='${req.body.name}'`);
     if (checkName.rowCount > 0) {
       return res.status(400).json({code: 400, message: "Project name already exists"});
     }
+    // Begin transaction
+    await client.query("BEGIN");
 
+    // Create project
     const sqlCreateProject = `
-      INSERT INTO project (name, payment, time_start , time_end, note, priority) 
-      VALUES ('${req.body.name}', '${req.body.payment}', '${req.body.time_start}','${req.body.time_end}' ,'${req.body.note}','${req.body.priority}');
+      INSERT INTO project (name, payment, time_start, time_end, note, priority) 
+      VALUES ($1, $2, $3, $4, $5, $6)
+      RETURNING id;
     `;
-    const createdProject = await QueryDatabase(sqlCreateProject);
-    if (!createdProject) {
-      return res.status(400).json({code: 400, message: "Request create project error"});
-    }
+    const values = [req.body.name, req.body.payment, req.body.time_start, req.body.time_end, req.body.note, req.body.priority];
 
-    // If selected users exist, associate them with the project
+    const createdProject = await client.query(sqlCreateProject, values);
+    const project_id = createdProject.rows[0].id;
+
     if (req.body.arrSelectedUser && req.body.arrSelectedUser.length > 0) {
-      const projectId = await QueryDatabase(`SELECT id FROM project WHERE name='${req.body.name}'`);
-      const project_id = projectId.rows[0].id;
-      for (const userId of req.body.arrSelectedUser) {
+      // arrSelectedUser chỉ danh sách User ngoại trừ user login và admin
+      for (const user of req.body.arrSelectedUser) {
         const sqlCreateProjectUser = `
-      INSERT INTO map_project_user (project_id, user_id) 
-      VALUES ('${project_id}', '${userId}');
-    `;
-        await QueryDatabase(sqlCreateProjectUser);
+          INSERT INTO map_project_user (project_id, user_id, is_host) 
+          VALUES ($1, $2, $3);
+        `;
+        const userValues = [project_id, user.user_id, user.is_host];
+        await client.query(sqlCreateProjectUser, userValues);
       }
     }
+    // Commit transaction
+    await client.query("COMMIT");
     res.status(200).json({code: 200, message: "Create project success"});
   } catch (err) {
+    // Rollback transaction in case of error
+    await client.query("ROLLBACK");
     console.error(err);
     res.status(500).json({code: 500, message: "Internal Server Error"});
+  } finally {
+    client.release(); // Release client back to the pool
   }
 };
 

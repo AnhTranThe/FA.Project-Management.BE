@@ -46,12 +46,17 @@ const GetProjectByUser = async (req, res, next) => {
       res.status(400).json({code: 400, message: "Not have email, please check email again"});
       return;
     }
-
+    // const sql = `
+    //   SELECT DISTINCT c.*
+    //   FROM task a INNER JOIN "user" b ON a.user_mail = b.email INNER JOIN project c ON a.project_id = c.id
+    //   WHERE b.email = ${"'" + email + "'"}
+    // `;
     const sql = `
-      SELECT DISTINCT c.*
-      FROM task a INNER JOIN "user" b ON a.user_mail = b.email INNER JOIN project c ON a.project_id = c.id 
-      WHERE b.email = ${"'" + email + "'"}
-    `;
+    select distinct  p.*
+    FROM "project" p
+    INNER JOIN map_project_user mpu ON p.id = mpu.project_id
+    INNER JOIN "user" u ON u.id = mpu.user_id
+    WHERE u.email =${"'" + email + "'"} `;
 
     const data = await QueryDatabase(sql);
     res.status(200).send(data.rows);

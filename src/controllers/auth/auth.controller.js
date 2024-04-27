@@ -11,6 +11,7 @@ const Login = async (req, res) => {
     const data = await QueryDatabase(sql);
     const {email, password} = req.body;
     const findAccount = data.rows.find((item) => item.email === email);
+
     // Check email
     if (!findAccount) {
       res.status(401).json({code: 401, message: "Email not found"});
@@ -21,7 +22,6 @@ const Login = async (req, res) => {
     if (checkPassword === false) {
       res.status(401).json({code: 401, message: "Password is wrong"});
     }
-
     if (checkPassword === true) {
       const sql_search_role = `SELECT role FROM "user" WHERE email = '${email}'`;
       const role = await QueryDatabase(sql_search_role);
