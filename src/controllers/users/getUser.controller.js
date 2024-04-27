@@ -41,11 +41,11 @@ const GetUserById = async (req, res, next) => {
   }
 };
 
-const GetUsersJoinInProjectId = async (req, res, next) => {
+const GetUsersJoinInProject = async (req, res, next) => {
   try {
     const projectId = escape(req.params.projectId);
     const sql = `
-    select  u.email, mpu.is_host  FROM Project p  
+    select u.id, u.email, mpu.is_host  FROM Project p  
     INNER JOIN map_project_user mpu  ON p.id  = mpu.project_id 
     INNER JOIN "user" u  on mpu.user_id  = u.id 
     WHERE p.id  = '${projectId}'`;
@@ -81,6 +81,6 @@ const GetProjectBySearch = async (req, res) => {
 module.exports = {
   GetUser,
   GetUserById,
-  GetUsersJoinInProjectId,
+  GetUsersJoinInProject,
   GetProjectBySearch,
 };
