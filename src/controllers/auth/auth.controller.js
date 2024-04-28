@@ -27,11 +27,21 @@ const Login = async (req, res) => {
       const sql_search_role = `SELECT role FROM "user" WHERE email = '${email}'`;
       const role = await QueryDatabase(sql_search_role);
 
-      const accessToken = GenerateAccessToken({user_name: findAccount?.name, role: role.rows[0].role});
-      const refreshToken = GenerateRefreshToken({user_name: findAccount?.name, role: role.rows[0].role});
-      res.status(200).json({
+      const accessToken = GenerateAccessToken({
         id: findAccount.id,
+        email: findAccount.email,
+        user_name: findAccount?.name,
         role: role.rows[0].role,
+      });
+      const refreshToken = GenerateRefreshToken({
+        id: findAccount.id,
+        email: findAccount.email,
+        user_name: findAccount?.name,
+        role: role.rows[0].role,
+      });
+      res.status(200).json({
+        // id: findAccount.id,
+        // role: role.rows[0].role,
         access_token: accessToken,
         refresh_token: refreshToken,
       });
