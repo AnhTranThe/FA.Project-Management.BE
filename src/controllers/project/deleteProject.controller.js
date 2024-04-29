@@ -1,8 +1,9 @@
+const db = require("../../connection/database.connection");
 const QueryDatabase = require("../../utils/queryDatabase");
 const {v4: uuidv4, validate: validateUuid} = require("uuid");
 
 const DeleteProject = async (req, res, next) => {
-  const client = await pool.connect();
+  const client = await db.connect();
   try {
     const id = req.body.id;
 
@@ -39,7 +40,7 @@ const DeleteProject = async (req, res, next) => {
     console.error(err);
     res.status(500).json({code: 500, message: "Internal Server Error"});
   } finally {
-    client.release(); // Release client back to the pool
+    client.release(); // Release client back to the db
   }
 };
 

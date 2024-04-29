@@ -1,5 +1,7 @@
+const db = require("../../connection/database.connection");
+
 const changeHostProject = async (req, res, next) => {
-  const client = await pool.connect(); // Assuming you're using a database pool
+  const client = await db.connect();
 
   try {
     const {project_id, new_host_user_id} = req.body;
@@ -37,7 +39,7 @@ const changeHostProject = async (req, res, next) => {
     console.error(err);
     res.status(500).json({code: 500, message: "Internal Server Error"});
   } finally {
-    client.release(); // Release client back to the pool
+    client.release(); // Release client back to the db
   }
 };
 module.exports = changeHostProject;

@@ -1,9 +1,10 @@
+const db = require("../../connection/database.connection");
 const QueryDatabase = require("../../utils/queryDatabase");
 const {GetProjectByName} = require("./getProject.controller");
 const {v4: uuidv4, validate: validateUuid} = require("uuid");
 
 const CreateProject = async (req, res, next) => {
-  const client = await pool.connect();
+  const client = await db.connect();
   try {
     // Check name của project tạo mới ko được trùng với cái đã có trong hệ thống
     const checkName = await QueryDatabase(`SELECT * FROM project WHERE name='${req.body.name}'`);
@@ -44,7 +45,7 @@ const CreateProject = async (req, res, next) => {
     console.error(err);
     res.status(500).json({code: 500, message: "Internal Server Error"});
   } finally {
-    client.release(); // Release client back to the pool
+    client.release(); // Release client back to the
   }
 };
 
