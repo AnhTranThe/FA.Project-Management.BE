@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "bun run --watch ./src/server.js",
     "build": "bun build ./src/server.js --target=bun --outfile=./dist/server.js",
-    "pretty": "prettier --write \"./**/*.{js,jsx,json}\""
+    "pretty": "prettier --write \"./**/*.{js,jsx,json}\"",
+    "swagger": " bun run ./src/swagger/swagger.js"
   },
   "dependencies": {
     "aws-sdk": "^2.1637.0",
@@ -16,9 +17,9 @@
     "cors": "^2.8.5",
     "debug": "~2.6.9",
     "dotenv": "^16.4.5",
-    "ejs": "~2.6.1",
+    "ejs": "^3.1.10",
     "escape-html": "^1.0.3",
-    "express": "~4.16.1",
+    "express": "^4.19.2",
     "express-rate-limit": "^7.2.0",
     "fs": "^0.0.1-security",
     "http-errors": "~1.6.3",
@@ -29,6 +30,7 @@
     "nodemon": "^3.1.0",
     "pg": "^8.11.3",
     "prettier": "^3.2.5",
+    "swagger-autogen": "^2.23.7",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0",
     "uuid": "^9.0.1",

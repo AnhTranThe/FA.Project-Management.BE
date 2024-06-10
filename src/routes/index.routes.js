@@ -18,13 +18,34 @@ const PutTask = require("../controllers/task/putTask.controller");
 const ChangeRoleUser = require("../controllers/users/changeRoleUser.controller");
 const changeHostProject = require("../controllers/project/changeHostProject.controller");
 
-// ROUTES
-// Home
 router.get("/", (req, res, next) => {
   res.send("<h1>HOME PAGE</h1>");
 });
 
 // Auth
+/**
+ * @swagger
+ * /api/login:
+ *   post:
+ *     summary: Login a user
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Successful login
+ *       401:
+ *         description: Unauthorized
+ */
 router.post("/api/login", Login);
 router.post("/api/register", Register);
 router.get("/api/refresh-token", RefreshToken);

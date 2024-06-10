@@ -1,19 +1,29 @@
-const swaggerJSDoc = require("swagger-jsdoc");
-
-const swaggerDefinition = {
+// const swaggerJSDoc = require("swagger-jsdoc");
+// const options = {
+//   definition: {
+//     openapi: "3.0.0",
+//     info: {
+//       title: "FA Project Management API",
+//       version: "1.0.0",
+//       description: "API documentation for the FA Project Management application",
+//     },
+//   },
+//   apis: ["src/routes/*.js"],
+// };
+const swaggerAutogen = require("swagger-autogen")();
+const doc = {
   info: {
-    title: "API Documentation",
-    version: "1.0.0",
-    description: "Documentation for your API",
+    title: "My API",
+    description: "Description",
   },
-  basePath: "/", // Base path for your API
+  host: `localhost:${process.env.PORT}`,
 };
 
-const options = {
-  swaggerDefinition,
-  apis: ["../routes/*.js"], // Path to the API routes folder
-};
+const outputFile = "./swagger-output.json";
+const routes = ["src/routes/index.routes.js"];
 
-const swaggerSpec = swaggerJSDoc(options);
+swaggerAutogen(outputFile, routes, doc);
 
-module.exports = swaggerSpec;
+// const swaggerSpec = swaggerJSDoc(options);
+
+// module.exports = swaggerSpec;
