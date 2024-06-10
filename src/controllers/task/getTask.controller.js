@@ -1,5 +1,6 @@
 const QueryDatabase = require("../../utils/queryDatabase");
 const {v4: uuidv4, validate: validateUuid} = require("uuid");
+const logger = require("../../loggers/loggers.config");
 
 const GetTask = async (req, res, next) => {
   try {
@@ -69,7 +70,8 @@ const GetTaskByProjectId = async (req, res, next) => {
     }
     res.status(200).send(data.rows);
   } catch (err) {
-    console.error(err);
+    logger.error(error);
+    console.error("Internal Server Error 🔥:: ", err);
     res.status(500).json({code: 500, message: "Internal Server Error"});
   }
 };
@@ -91,7 +93,8 @@ const GetTaskByUser = async (req, res, next) => {
     }
     res.status(200).send(data.rows);
   } catch (err) {
-    console.error(err);
+    logger.error(error);
+    console.error("Internal Server Error 🔥:: ", err);
     res.status(500).json({code: 500, message: "Internal Server Error"});
   }
 };

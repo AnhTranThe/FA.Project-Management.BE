@@ -1,5 +1,6 @@
 const escape = require("escape-html");
 const QueryDatabase = require("../../utils/queryDatabase");
+const logger = require("../../loggers/loggers.config");
 
 const DeleteUser = async (req, res, next) => {
   try {
@@ -22,6 +23,7 @@ const DeleteUser = async (req, res, next) => {
     await QueryDatabase(sql);
     res.status(200).json({code: 200, message: "Delete user success"});
   } catch (err) {
+    logger.error(error);
     console.error("Internal Server Error 🔥:: ", err);
     res.status(500).json({code: 500, message: "Internal Server Error"});
   }

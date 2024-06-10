@@ -1,6 +1,7 @@
 const escape = require("escape-html");
 const {hashPassword} = require("../../utils/hashBcrypt");
 const QueryDatabase = require("../../utils/queryDatabase");
+const logger = require("../../loggers/loggers.config");
 
 const CreateUser = async (req, res, next) => {
   try {
@@ -28,6 +29,7 @@ const CreateUser = async (req, res, next) => {
 
     res.status(200).json({code: 200, message: "Create user success"});
   } catch (err) {
+    logger.error(error);
     console.error("Internal Server Error 🔥:: ", err);
     res.status(500).json({code: 500, message: "Internal Server Error"});
   }

@@ -2,12 +2,14 @@
   "name": "web-server",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "bun run --watch ./src/server.js",
     "build": "bun build ./src/server.js --target=bun --outfile=./dist/server.js",
     "pretty": "prettier --write \"./**/*.{js,jsx,json}\""
   },
   "dependencies": {
+    "aws-sdk": "^2.1637.0",
     "axios": "^1.6.8",
     "bcrypt": "^5.1.1",
     "cookie-parser": "~1.4.4",
@@ -21,13 +23,16 @@
     "fs": "^0.0.1-security",
     "http-errors": "~1.6.3",
     "jsonwebtoken": "^9.0.2",
+    "mock-aws-s3": "^4.0.2",
     "morgan": "~1.9.1",
+    "nock": "^13.5.4",
     "nodemon": "^3.1.0",
     "pg": "^8.11.3",
     "prettier": "^3.2.5",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "winston": "^3.13.0"
   },
   "devDependencies": {
     "typescript": "^5.4.4"

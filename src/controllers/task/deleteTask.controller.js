@@ -1,5 +1,6 @@
 const QueryDatabase = require("../../utils/queryDatabase");
 const {v4: uuidv4, validate: validateUuid} = require("uuid");
+const logger = require("../../loggers/loggers.config");
 
 const DeleteTask = async (req, res, next) => {
   try {
@@ -28,7 +29,8 @@ const DeleteTask = async (req, res, next) => {
     await QueryDatabase(sql);
     res.status(200).json({code: 200, message: "Delete task success"});
   } catch (err) {
-    console.error(err);
+    logger.error(error);
+    console.error("Internal Server Error 🔥:: ", err);
     res.status(500).json({code: 500, message: "Internal Server Error"});
   }
 };

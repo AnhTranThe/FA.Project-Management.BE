@@ -9,16 +9,14 @@ import {rateLimit} from "express-rate-limit";
 const swaggerUi = require("swagger-ui-express");
 const swaggerSpec = require("./swagger/swagger");
 
-export const app = express();
-
-// const limitRequestConfig = rateLimit({
-//   windowMs: 5 * 60 * 1000, // 5 minutes
-//   limit: 50, // Limit each IP to 50 requests per `window` (here, per 15 minutes).
-//   message: "Too many requests from this IP 🔥🔥, please try again later !",
-// });
-
-// app.use(limitRequestConfig); // Apply the limit-requests middleware.
+const app = express();
 app.use(cors()); //Apply CORS middleware globally
+const limitRequestConfig = rateLimit({
+  windowMs: 5 * 60 * 1000, // 5 minutes
+  limit: 50, // Limit each IP to 50 requests per `window` (here, per 15 minutes).
+  message: "Too many requests from this IP 🔥🔥, please try again later !",
+});
+app.use(limitRequestConfig); // Apply the limit-requests middleware.
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));

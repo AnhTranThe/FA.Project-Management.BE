@@ -1,5 +1,6 @@
 const QueryDatabase = require("../../utils/queryDatabase");
 const {v4: uuidv4, validate: validateUuid} = require("uuid");
+const logger = require("../../loggers/loggers.config");
 
 const CreateTask = async (req, res, next) => {
   try {
@@ -33,7 +34,8 @@ const CreateTask = async (req, res, next) => {
       return;
     }
   } catch (err) {
-    console.error(err);
+    logger.error(error);
+    console.error("Internal Server Error 🔥:: ", err);
     res.status(500).json({code: 500, message: "Internal Server Error"});
   }
 };

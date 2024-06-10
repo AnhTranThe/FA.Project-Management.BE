@@ -1,7 +1,7 @@
 const db = require("../../connection/database.connection");
 const QueryDatabase = require("../../utils/queryDatabase");
 const {v4: uuidv4, validate: validateUuid} = require("uuid");
-
+const logger = require("../../loggers/loggers.config");
 const DeleteProject = async (req, res, next) => {
   const client = await db.connect();
   try {
@@ -37,7 +37,8 @@ const DeleteProject = async (req, res, next) => {
     res.status(200).json({code: 200, message: "Delete Project success"});
   } catch (err) {
     await client.query("ROLLBACK");
-    console.error(err);
+    logger.error(error);
+    console.error("Internal Server Error 🔥:: ", err);
     res.status(500).json({code: 500, message: "Internal Server Error"});
   } finally {
     client.release(); // Release client back to the db
@@ -155,6 +156,8 @@ const deleteUserInproject = async (req, res) => {
 
     return res.status(200).json({code: 200, message: `Delete User Success`});
   } catch (error) {
+    logger.error(error);
+    console.error("Internal Server Error 🔥:: ", err);
     res.status(500).json({code: 500, message: "Internal Server Error"});
   }
 };

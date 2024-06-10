@@ -3,6 +3,7 @@ const {GenerateAccessToken, GenerateRefreshToken} = require("../../utils/generat
 const QueryDatabase = require("../../utils/queryDatabase");
 const {compareHashPassword, hashPassword} = require("../../utils/hashBcrypt");
 const {upperCaseName} = require("../../utils/checkCharacter");
+const logger = require("../../loggers/loggers.config");
 
 const Login = async (req, res) => {
   try {
@@ -47,6 +48,8 @@ const Login = async (req, res) => {
       });
     }
   } catch (error) {
+    logger.error(error);
+    console.error("Internal Server Error 🔥:: ", err);
     res.status(401).json({code: 401, message: "Unauthorized"});
   }
 };
@@ -73,6 +76,8 @@ const RefreshToken = async (req, res) => {
     const refresh_token = GenerateRefreshToken({user_name: decodedJWT.user_name, role: decodedJWT.role});
     res.status(200).json({refresh_token: refresh_token});
   } catch (error) {
+    logger.error(error);
+    console.error("Internal Server Error 🔥:: ", err);
     res.status(401).json({code: 401, message: "JWT expired"});
   }
 };
@@ -129,6 +134,8 @@ const Register = async (req, res) => {
     await QueryDatabase(sqlCreateUser);
     return res.status(200).json({code: 200, message: "Create User Success"});
   } catch (error) {
+    logger.error(error);
+    console.error("Internal Server Error 🔥:: ", err);
     return res.status(500).json({code: 500, message: "Internal Server Error"});
   }
 };

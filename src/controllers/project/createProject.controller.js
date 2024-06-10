@@ -2,6 +2,7 @@ const db = require("../../connection/database.connection");
 const QueryDatabase = require("../../utils/queryDatabase");
 const {GetProjectByName} = require("./getProject.controller");
 const {v4: uuidv4, validate: validateUuid} = require("uuid");
+const logger = require("../../loggers/loggers.config");
 
 const CreateProject = async (req, res, next) => {
   const client = await db.connect();
@@ -42,7 +43,8 @@ const CreateProject = async (req, res, next) => {
   } catch (err) {
     // Rollback transaction in case of error
     await client.query("ROLLBACK");
-    console.error(err);
+    logger.error(error);
+    console.error("Internal Server Error 🔥:: ", err);
     res.status(500).json({code: 500, message: "Internal Server Error"});
   } finally {
     client.release(); // Release client back to the
@@ -115,6 +117,8 @@ const addUserInProject = async (req, res) => {
 
     return res.status(200).json({code: 200, message: "Add User In Project Success"});
   } catch (error) {
+    logger.error(error);
+    console.error("Internal Server Error 🔥:: ", err);
     res.status(500).json({code: 500, message: "Internal Server Error"});
   }
 };
