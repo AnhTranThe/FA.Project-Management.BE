@@ -1,1 +1,21 @@
 2024-06-10 18:23:55 [Application] error: undefined is not an object (evaluating 'findAccount.password')
+2024-08-02 10:52:08 [Application] error: connection is insecure (try using `sslmode=require`)
+2024-08-02 10:52:11 [Application] error: connection is insecure (try using `sslmode=require`)
+2024-08-02 10:52:12 [Application] error: connection is insecure (try using `sslmode=require`)
+2024-08-02 10:52:13 [Application] error: connection is insecure (try using `sslmode=require`)
+2024-08-02 10:52:16 [Application] error: connection is insecure (try using `sslmode=require`)
+2024-08-02 10:52:18 [Application] error: connection is insecure (try using `sslmode=require`)
+2024-08-02 11:12:23 [Application] error: connection is insecure (try using `sslmode=require`)
+2024-08-02 11:27:58 [Application] error: Connection terminated unexpectedly
+2024-08-02 11:28:48 [Application] error: connection is insecure (try using `sslmode=require`)
+2024-08-02 12:28:11 [Application] error: Connection terminated due to connection timeout
+2024-08-02 12:28:11 [Application] error: Connection terminated due to connection timeout
+2024-08-02 12:28:11 [Application] error: Connection terminated due to connection timeout
+2024-08-02 13:38:59 [Application] error: Connection terminated due to connection timeout
+2024-08-02 13:39:00 [Application] error: Connection terminated due to connection timeout
+2024-08-02 13:53:03 [Application] error: Connection terminated due to connection timeout
+2024-08-02 13:53:03 [Application] error: Connection terminated due to connection timeout
+2024-08-02 14:27:47 [Application] error: Connection terminated due to connection timeout
+2024-08-02 14:59:36 [Application] error: Connection terminated due to connection timeout
+2024-08-02 15:16:16 [Application] error: Connection terminated due to connection timeout
+2024-08-02 18:49:17 [Application] error: Connection terminated due to connection timeout

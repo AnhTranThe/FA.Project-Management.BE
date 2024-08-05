@@ -9,9 +9,31 @@ const logger = require("morgan");
 const swaggerUi = require("swagger-ui-express");
 // const swaggerSpec = require("./swagger/swagger");
 const swaggerFile = require("./swagger-output.json");
+const allowedOrigins = process.env.ALLOW_ORIGINS;
+const corsOptions = {
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps, curl, etc.)
+    if (!origin) return callback(null, true);
 
+    // Allow all localhost origins
+    if (origin.startsWith("http://localhost")) {
+      return callback(null, true);
+    }
+
+    // Allow specific origins
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      return callback(null, true);
+    }
+
+    // Disallow other origins
+    return callback(new Error("Not allowed by CORS"));
+  },
+  optionsSuccessStatus: 200, // For legacy browser support
+};
 const app = express();
-app.use(cors()); //Apply CORS middleware globally
+app.options("*", cors(corsOptions));
+// Use CORS middleware
+app.use(cors(corsOptions));
 // const limitRequestConfig = rateLimit({
 //   windowMs: 5 * 60 * 1000, // 5 minutes
 //   limit: 50, // Limit each IP to 50 requests per `window` (here, per 15 minutes).

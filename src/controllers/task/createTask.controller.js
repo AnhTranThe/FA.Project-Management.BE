@@ -34,7 +34,7 @@ const CreateTask = async (req, res, next) => {
       return;
     }
   } catch (err) {
-    logger.error(error);
+    logger.error(err);
     console.error("Internal Server Error 🔥:: ", err);
     res.status(500).json({code: 500, message: "Internal Server Error"});
   }

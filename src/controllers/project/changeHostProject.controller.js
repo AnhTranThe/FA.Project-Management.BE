@@ -37,9 +37,8 @@ const changeHostProject = async (req, res, next) => {
   } catch (err) {
     // Rollback transaction in case of error
     await client.query("ROLLBACK");
-    logger.error(error);
+    logger.error(err);
     console.error("Internal Server Error 🔥:: ", err);
-    console.error(err);
     res.status(500).json({code: 500, message: "Internal Server Error"});
   } finally {
     client.release(); // Release client back to the db

@@ -17,7 +17,7 @@ const GetUser = async (req, res, next) => {
       }),
     );
   } catch (err) {
-    logger.error(error);
+    logger.error(err);
     console.error("Internal Server Error 🔥:: ", err);
     res.status(500).json({code: 500, message: "Internal Server Error"});
   }
@@ -38,7 +38,7 @@ const GetUserById = async (req, res, next) => {
       }),
     );
   } catch (err) {
-    logger.error(error);
+    logger.error(err);
     console.error("Internal Server Error 🔥:: ", err);
     res.status(500).json({code: 500, message: "Internal Server Error"});
   }
@@ -56,7 +56,7 @@ const GetUsersJoinInProject = async (req, res, next) => {
     const data = await QueryDatabase(sql);
     res.status(200).send(data.rows);
   } catch (err) {
-    logger.error(error);
+    logger.error(err);
     console.error("Internal Server Error 🔥:: ", err);
     res.status(500).json({code: 500, message: "Internal Server Error"});
   }
@@ -78,8 +78,8 @@ const GetProjectBySearch = async (req, res) => {
       }
     });
     return res.status(200).send({code: 200, data: dataSearchBykey});
-  } catch (error) {
-    logger.error(error);
+  } catch (err) {
+    logger.error(err);
     console.error("Internal Server Error 🔥:: ", err);
     res.status(500).json({code: 500, message: "Internal Server Error"});
   }

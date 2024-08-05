@@ -43,7 +43,7 @@ const CreateProject = async (req, res, next) => {
   } catch (err) {
     // Rollback transaction in case of error
     await client.query("ROLLBACK");
-    logger.error(error);
+    logger.error(err);
     console.error("Internal Server Error 🔥:: ", err);
     res.status(500).json({code: 500, message: "Internal Server Error"});
   } finally {
@@ -116,8 +116,8 @@ const addUserInProject = async (req, res) => {
     }
 
     return res.status(200).json({code: 200, message: "Add User In Project Success"});
-  } catch (error) {
-    logger.error(error);
+  } catch (err) {
+    logger.error(err);
     console.error("Internal Server Error 🔥:: ", err);
     res.status(500).json({code: 500, message: "Internal Server Error"});
   }

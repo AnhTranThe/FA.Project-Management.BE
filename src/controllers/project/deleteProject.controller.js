@@ -37,7 +37,7 @@ const DeleteProject = async (req, res, next) => {
     res.status(200).json({code: 200, message: "Delete Project success"});
   } catch (err) {
     await client.query("ROLLBACK");
-    logger.error(error);
+    logger.error(err);
     console.error("Internal Server Error 🔥:: ", err);
     res.status(500).json({code: 500, message: "Internal Server Error"});
   } finally {
@@ -155,8 +155,8 @@ const deleteUserInproject = async (req, res) => {
     await QueryDatabase(sqlDeleteProjectUser);
 
     return res.status(200).json({code: 200, message: `Delete User Success`});
-  } catch (error) {
-    logger.error(error);
+  } catch (err) {
+    logger.error(err);
     console.error("Internal Server Error 🔥:: ", err);
     res.status(500).json({code: 500, message: "Internal Server Error"});
   }

@@ -36,7 +36,7 @@ const PutProject = async (req, res, next) => {
     await QueryDatabase(sql);
     res.status(200).json({code: 200, message: "Change project success"});
   } catch (err) {
-    logger.error(error);
+    logger.error(err);
     console.error("Internal Server Error 🔥:: ", err);
     res.status(500).json({code: 500, message: "Internal Server Error"});
   }
